@@ -11,7 +11,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("connexion a la base de donnee reussie"))
+  .then(() => console.log("Data Base connexion successfuly"))
   .catch((err) => {
     console.error("Connextion Echec", err);
     process.exit(-1);
@@ -31,6 +31,21 @@ app.post("/insert", async (req, res) => {
   }
 });
 
+app.put("/update", async (req, res) => {
+  const newFoodName = req.body.newFoodName;
+  const id = req.body.id;
+
+  try {
+    await FoodModel.findById(id, (err, newValue) => {
+      newValue.foodName = newFoodName;
+      newValue.save();
+      res.send("update");
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 app.get("/read", async (req, res) => {
   FoodModel.find({}, (err, result) => {
     if (err) {
@@ -40,5 +55,5 @@ app.get("/read", async (req, res) => {
   });
 });
 app.listen(5000, () => {
-  console.log("Votre application est bien demarre sur les port : 5000");
+  console.log("Your server is running on Port : 5000");
 });
