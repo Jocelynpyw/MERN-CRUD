@@ -54,6 +54,11 @@ app.get("/read", async (req, res) => {
     res.send(result);
   });
 });
+app.delete("/delete/:id", async (req, res) => {
+  const id = req.params.id;
+  await FoodModel.findByIdAndRemove(id).exec();
+  res.send("Delete");
+});
 app.listen(5000, () => {
   console.log("Your server is running on Port : 5000");
 });
